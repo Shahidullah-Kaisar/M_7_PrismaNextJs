@@ -9,6 +9,7 @@ const createUser = async (req: Request, res: Response) => {
       message: "User Created Successfully",
       data: result,
     });
+
   } catch (error) {
     console.log(error);
 
@@ -17,8 +18,6 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
-
-
 
 const getAllUser = async (req: Request, res: Response) => {
   try {
@@ -28,6 +27,7 @@ const getAllUser = async (req: Request, res: Response) => {
       message: "User retrived Successfully",
       data: result,
     });
+
   } catch (error) {
     console.log(error);
 
@@ -37,11 +37,9 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
-
-
 const getUserById = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;                 //id is a string by default
+    const id = req.params.id; //id is a string by default
     const result = await UserService.getUserById(Number(id));
 
     res.status(200).json({
@@ -60,8 +58,49 @@ const getUserById = async (req: Request, res: Response) => {
 
 
 
+const updateUserById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const result = await UserService.updateUserById(Number(id), req.body);
+
+    res.status(200).json({
+      message: "User updated Successfully",
+      data: result,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+
+const deleteUserById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id; //id is a string by default
+    const result = await UserService.deleteUserById(Number(id));
+
+    res.status(200).json({
+      message: "User deleted Successfully",
+      data: result,
+    });
+    
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      error: error,
+    });
+  }
+};
+
 export const UserController = {
   createUser,
   getAllUser,
-  getUserById
+  getUserById,
+  deleteUserById,
+  updateUserById
 };
