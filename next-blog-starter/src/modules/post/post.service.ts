@@ -28,13 +28,15 @@ const getAllPost = async ({
     limit,
     search,
     isFeatured,
-    tags
+    tags,
+    sortOrder,
 }: {
     page: number;
     limit: number;
     search: string;
     isFeatured?: boolean;
-    tags?: string[]
+    tags?: string[];
+    sortOrder?: string;
 }) => {
     const skip = (page - 1) * limit;
 
@@ -56,8 +58,8 @@ const getAllPost = async ({
                     },
                 ],
             },
-            typeof isFeatured === "boolean" && {isFeatured: isFeatured},
-            (tags && tags.length > 0) && {tags: {hasEvery: tags}}
+            typeof isFeatured === "boolean" && { isFeatured: isFeatured },
+            tags && tags.length > 0 && { tags: { hasEvery: tags } },
         ].filter(Boolean),
     };
 
@@ -66,12 +68,11 @@ const getAllPost = async ({
         take: limit,
         where,
         orderBy: {
-            createdAt: "desc",
+            createdAt: sortOrder === "desc" ? "desc" : "asc",
         },
     });
 
-    
-    const total = await prisma.post.count({where});
+    const total = await prisma.post.count({ where });
 
     return {
         data: result,
@@ -79,20 +80,39 @@ const getAllPost = async ({
             page,
             limit,
             total,
-            totalPages: Math.ceil(total/limit)
-        }
-    }
-
+            totalPages: Math.ceil(total / limit),
+        },
+    };
 };
 
 const getPostById = async (id: number) => {
-    const result = await prisma.post.findUnique({
-        where: {
-            id,
-        },
-    });
+    return await prisma.$transaction(async (tx) => {
+        await tx.post.update({
+            where: {
+                id,
+            },
+            data: {
+                views: {
+                    increment: 1,
+                },
+            },
+        });
 
-    return result;
+        return await tx.post.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                author: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
+            },
+        });
+    });
 };
 
 const updatePost = async (id: number, payload: Partial<Post>) => {
@@ -116,10 +136,75 @@ const deletePost = async (id: number) => {
     return result;
 };
 
+
+const getBlogStats = async() => {
+    return await prisma.$transaction(async(tx) => {
+
+        const aggregates = await tx.post.aggregate({
+            _count: true,
+            _sum: {views: true},
+            _avg: {views: true},
+            _max: {views: true},
+            _min: {views: true},
+        });
+
+        const featuredCount = await tx.post.count({
+            where: {
+                isFeatured: true
+            }
+        });
+
+        const topFeatured = await tx.post.findFirst({
+            where: {
+                isFeatured: true
+            },
+            orderBy: {
+                views: 'desc'
+            }
+        });
+
+        const lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7); //lastWeek.getDate() ---> এটা return করে month-এর মধ্যে দিন । উদাহরণ: যদি আজ 6 অক্টোবর → lastWeek.getDate() = 6
+
+        const lastWeekPostCount = await tx.post.count({
+            where: {
+                createdAt: {
+                    gte: lastWeek
+                }
+            }
+        })
+
+        return {
+            stats: {
+                totalPosts: aggregates._count ?? 0,
+                totalViews: aggregates._sum.views ?? 0,
+                avgViews: aggregates._avg.views ?? 0,
+                minViews: aggregates._min.views ?? 0,
+                maxViews: aggregates._max.views ?? 0,
+            },
+            featured: {
+                count: featuredCount,
+                topPost: topFeatured
+            },
+            lastWeekPostCount
+        }
+    })
+}
+
+
 export const PostService = {
     createPost,
     getAllPost,
     getPostById,
     updatePost,
     deletePost,
+    getBlogStats
 };
+
+
+// ⚙️ Transaction API কীভাবে কাজ করে
+
+// prisma.$transaction()
+// এটা একটা atomic operation block — মানে ব্লকের ভিতরের সব কুয়েরি একসাথে সফল না হলে কিছুই হবে না।
+
+// ➜ যদি update বা findUnique-এর মধ্যে কোনো একটা fail করে, তাহলে আগের সব পরিবর্তন rollback হয়ে যাবে।

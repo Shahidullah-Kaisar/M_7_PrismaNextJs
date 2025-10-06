@@ -1,8 +1,7 @@
-
 # Next Blog Starter
 
-A simple **Blog Application Starter Pack** built with **TypeScript, Express.js**.  
-This project is designed for the **Next Level Web Development Bootcamp** to help learners practice Prisma hands-on by building a blog platform.
+A simple **Blog Application Starter Pack** built with **TypeScript and Express.js**.  
+This project is designed to help learners practice Prisma hands-on by building a blog platform.
 
 ---
 
@@ -90,12 +89,57 @@ pnpm start
 
 ---
 
-## Learning Objective
+## Learning Objectives
 
-This starter pack is part of the **Next Level Web Development Bootcamp** curriculum.
+This starter pack is part of the **Next Level Web Development Bootcamp** curriculum.  
 By using this project, students will learn how to:
 
 * Connect a Node.js app with Prisma ORM
 * Build modular APIs
 * Manage environment variables
 * Structure scalable backend projects
+
+---
+
+## Date Example: `lastWeek`
+
+This project includes a simple **JavaScript Date example** to calculate the date 7 days ago:
+
+```ts
+const lastWeek = new Date();
+lastWeek.setDate(lastWeek.getDate() - 7);
+```
+
+### Step-by-Step Explanation
+
+#### 1. Create a new Date object
+```ts
+const lastWeek = new Date();
+```
+- `new Date()` creates a Date object with the **current date and time**.  
+- Example:
+```ts
+const today = new Date();
+console.log(today); // 2025-10-06T03:45:00.000Z
+```
+
+#### 2. Get the current day of the month
+```ts
+lastWeek.getDate();
+```
+- `getDate()` returns the **day of the month** for the Date object.  
+- Example: If today is 6th October → `lastWeek.getDate() = 6`
+
+#### 3. Set the date to 7 days ago
+```ts
+lastWeek.setDate(lastWeek.getDate() - 7);
+```
+- `setDate()` updates the day of the month for the Date object.  
+- `getDate() - 7` subtracts 7 days from today.  
+- JavaScript automatically **adjusts the month and year** if needed.  
+
+Example:  
+- Today = 6 October  
+- 7 days ago = 6 - 7 = -1 → Automatically becomes 29 September  
+
+✅ This technique is useful for filtering database records, generating reports, or calculating past dates dynamically.

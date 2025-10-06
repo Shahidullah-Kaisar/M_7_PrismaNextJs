@@ -25,10 +25,18 @@ const getAllPost = async (req: Request, res: Response) => {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
         const search = (req.query.search as string) || "";
-        const isFeatured = req.query.isFeatured ? req.query.isFeatured  === "true" : undefined;
+        const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : undefined;
         const tags = req.query.tags ? (req.query.tags as string).split(",") : [];
+        const sortOrder = req.query.sortOrder as string;
 
-        const result = await PostService.getAllPost({ page, limit, search, isFeatured, tags });
+        const result = await PostService.getAllPost({
+            page,
+            limit,
+            search,
+            isFeatured,
+            tags,
+            sortOrder,
+        });
 
         res.status(200).json({
             message: "Post retrived Successfully",
@@ -97,10 +105,28 @@ const deletePost = async (req: Request, res: Response) => {
     }
 };
 
+const getBlogStats = async (req: Request, res: Response) => {
+    try {
+        const result = await PostService.getBlogStats();
+
+        res.status(200).json({
+            message: "Stats retrieved Successfully",
+            result,
+        });
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            error: error,
+        });
+    }
+};
+
 export const PostController = {
     createPost,
     getAllPost,
     getPostById,
     updatePost,
     deletePost,
+    getBlogStats,
 };
