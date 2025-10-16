@@ -1,0 +1,92 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Wireless Bluetooth Headphones",
+            "description": "High-quality over-ear headphones with noise cancellation and 30-hour battery life.",
+            "price": 59.99,
+            "category": "Electronics",
+            "brand": "SoundPro",
+            "rating": 4.5,
+            "stock": 25,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 2,
+            "name": "Smart Watch Series 6",
+            "description": "Fitness tracking, heart rate monitor, and customizable watch faces.",
+            "price": 199.99,
+            "category": "Wearables",
+            "brand": "TechTime",
+            "rating": 4.7,
+            "stock": 12,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 3,
+            "name": "Gaming Laptop 15.6”",
+            "description": "Intel i7, 16GB RAM, 512GB SSD, and RTX 3060 graphics card.",
+            "price": 1099.99,
+            "category": "Computers",
+            "brand": "GameX",
+            "rating": 4.8,
+            "stock": 8,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 4,
+            "name": "Mechanical Keyboard RGB",
+            "description": "Tactile switches, customizable RGB lighting, and ergonomic design.",
+            "price": 89.99,
+            "category": "Accessories",
+            "brand": "KeyMaster",
+            "rating": 4.6,
+            "stock": 30,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 5,
+            "name": "4K LED Smart TV 50”",
+            "description": "Ultra HD resolution, voice control, and built-in streaming apps.",
+            "price": 449.99,
+            "category": "Home Entertainment",
+            "brand": "VisionTech",
+            "rating": 4.4,
+            "stock": 15,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 6,
+            "name": "Portable Bluetooth Speaker",
+            "description": "Compact waterproof speaker with deep bass and 12-hour playtime.",
+            "price": 39.99,
+            "category": "Audio",
+            "brand": "BeatBox",
+            "rating": 4.3,
+            "stock": 40,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 7,
+            "name": "Wireless Mouse",
+            "description": "Ergonomic wireless mouse with adjustable DPI and silent clicks.",
+            "price": 24.99,
+            "category": "Accessories",
+            "brand": "ClickEase",
+            "rating": 4.2,
+            "stock": 50,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "id": 8,
+            "name": "Smartphone Pro Max",
+            "description": "6.7-inch OLED display, 256GB storage, and advanced triple camera system.",
+            "price": 999.99,
+            "category": "Mobiles",
+            "brand": "NovaTech",
+            "rating": 4.9,
+            "stock": 10,
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600"
+        }
+    ]
+}

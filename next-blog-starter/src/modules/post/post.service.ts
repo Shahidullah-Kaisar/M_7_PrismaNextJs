@@ -14,6 +14,7 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
                     id: true,
                     name: true,
                     email: true,
+                    picture: true
                 },
             },
         },
@@ -67,6 +68,17 @@ const getAllPost = async ({
         skip,
         take: limit,
         where,
+        include: {
+            author: {
+                //---------see specific info of user----------------
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    picture: true
+                },
+            },
+        },
         orderBy: {
             createdAt: sortOrder === "desc" ? "desc" : "asc",
         },
